@@ -413,6 +413,9 @@
       #header h1 { font-size: 34px; }
     }
 
+    .methodology-link { display:inline-flex; align-items:center; height:34px; padding:0 14px; border-radius:999px; border:1px solid #E5EAF0; background:#FFFFFF; color:#5B6776; text-decoration:none; font-size:13px; font-weight:650; transition:all 180ms ease-out; margin-right:8px; }
+    .methodology-link:hover { color:#2563EB; border-color:rgba(37,99,235,.35); transform:translateY(-1px); box-shadow:0 8px 18px rgba(15,23,42,.06); }
+
     @media (max-width: 600px) {
       body { overflow: auto; }
       #app { min-height: 100vh; height: auto; grid-template-rows: auto 58vh auto; }
@@ -439,7 +442,8 @@
     </div>
     <div class="mode-panel">
       <div class="mode-label">Indicator</div>
-      <div class="mode-toggle">
+      <a class="methodology-link" href="methodology.html">Methodology</a>
+    <div class="mode-toggle">
         <button class="mode-btn active" data-m="tfr">TFR</button>
         <button class="mode-btn" data-m="pop">Population</button>
         <button class="mode-btn" data-m="age">Median age</button>
