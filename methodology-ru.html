@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Customer's Portrait to 2100 — Методология</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg-main: #F7F8FA;
+      --bg-soft: #EEF2F6;
+      --bg-card: #FFFFFF;
+      --text-main: #1F2933;
+      --text-secondary: #5B6776;
+      --text-muted: #8A94A6;
+      --border: #E5EAF0;
+      --accent-blue: #2563EB;
+      --accent-teal: #0F766E;
+      --shadow: 0 12px 36px rgba(15, 23, 42, 0.06);
+    }
+    body {
+      font-family: Inter, "IBM Plex Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 0%, rgba(37, 99, 235, 0.08), transparent 28%),
+        radial-gradient(circle at 92% 8%, rgba(15, 118, 110, 0.08), transparent 24%),
+        var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.72;
+      min-height: 100vh;
+    }
+    .site-shell {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px 32px 80px;
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 36px;
+      padding: 14px 18px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+      backdrop-filter: blur(10px);
+    }
+    .brand {
+      font-size: 14px;
+      font-weight: 750;
+      letter-spacing: -0.01em;
+      color: var(--text-main);
+    }
+    .nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    .nav a, .lang-switch a {
+      display: inline-flex;
+      align-items: center;
+      height: 34px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 650;
+      transition: all 180ms ease-out;
+    }
+    .nav a:hover, .lang-switch a:hover {
+      transform: translateY(-1px);
+      color: var(--accent-blue);
+      border-color: rgba(37, 99, 235, 0.35);
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+    }
+    .lang-switch {
+      display: inline-flex;
+      gap: 4px;
+      padding: 4px;
+      border-radius: 999px;
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+    }
+    .lang-switch a {
+      height: 28px;
+      padding: 0 10px;
+      border: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+    .lang-switch a.active {
+      background: #fff;
+      color: var(--accent-blue);
+      box-shadow: 0 5px 12px rgba(15, 23, 42, 0.06);
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+      gap: 24px;
+      align-items: stretch;
+      margin-bottom: 28px;
+    }
+    .hero-card, .summary-card, .content-card {
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+    }
+    .hero-card { padding: 42px; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      color: var(--accent-teal);
+      font-size: 13px;
+      font-weight: 750;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-teal);
+      box-shadow: 0 0 0 5px rgba(15, 118, 110, 0.1);
+    }
+    h1 {
+      max-width: 760px;
+      font-size: clamp(38px, 5vw, 64px);
+      line-height: 1.02;
+      font-weight: 780;
+      letter-spacing: -0.055em;
+      color: var(--text-main);
+      margin-bottom: 18px;
+    }
+    .lead {
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      max-width: 760px;
+    }
+    .summary-card {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 270px;
+      overflow: hidden;
+      position: relative;
+    }
+    .summary-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -70px -80px auto;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.14), transparent 62%);
+    }
+    .summary-label {
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+    }
+    .metric-list { display: grid; gap: 14px; position: relative; z-index: 1; }
+    .metric {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .metric:last-child { border-bottom: 0; padding-bottom: 0; }
+    .metric span:first-child { color: var(--text-secondary); font-size: 14px; }
+    .metric span:last-child {
+      color: var(--text-main);
+      font-family: "IBM Plex Mono", "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 17px;
+      font-weight: 700;
+    }
+    .content-card {
+      padding: 44px;
+      max-width: 920px;
+      margin: 0 auto;
+    }
+    .content-card > h1,
+    .content-card > h2:first-of-type { display: none; }
+    .content-card h2 {
+      font-size: clamp(26px, 3vw, 38px);
+      line-height: 1.12;
+      font-weight: 720;
+      letter-spacing: -0.04em;
+      color: var(--text-main);
+      margin: 54px 0 18px;
+      padding-top: 34px;
+      border-top: 1px solid var(--border);
+    }
+    .content-card h2:first-child, .content-card hr + h2 { margin-top: 0; }
+    .content-card h3 {
+      font-size: 21px;
+      line-height: 1.25;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--accent-blue);
+      margin: 34px 0 12px;
+    }
+    .content-card p {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 17px;
+    }
+    .content-card strong { color: var(--text-main); font-weight: 720; }
+    .content-card ul {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+      margin: 16px 0 24px;
+    }
+    .content-card li {
+      position: relative;
+      padding-left: 24px;
+      color: var(--text-secondary);
+      font-size: 16px;
+    }
+    .content-card li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.78em;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent-teal);
+    }
+    .content-card pre {
+      background: #F8FAFC;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px 20px;
+      margin: 18px 0 22px;
+      overflow-x: auto;
+    }
+    .content-card code {
+      font-family: "IBM Plex Mono", "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 13px;
+      color: #0F766E;
+    }
+    .content-card hr {
+      border: 0;
+      height: 1px;
+      background: var(--border);
+      margin: 44px 0;
+    }
+    .content-card p:last-child {
+      color: var(--text-muted);
+      font-size: 13px;
+      padding-top: 22px;
+      border-top: 1px solid var(--border);
+      margin-top: 38px;
+    }
+    @media (max-width: 780px) {
+      .site-shell { padding: 18px 18px 56px; }
+      .topbar { align-items: flex-start; border-radius: 22px; flex-direction: column; }
+      .nav { justify-content: flex-start; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-card, .content-card { padding: 28px; border-radius: 24px; }
+      .summary-card { min-height: auto; }
+    }
+  </style>
+</head>
+<body>
+  <main class="site-shell">
+    <header class="topbar">
+      <div class="brand">Your Customer's Portrait to 2100</div>
+      <nav class="nav" aria-label="Site navigation">
+        <a href="index.html">← Map</a>
+        <a href="methodology.html">Methodology</a>
+        <div class="lang-switch" aria-label="Language switcher">
+          <a class="" href="methodology.html">EN</a>
+          <a class="active" href="methodology-ru.html">RU</a>
+        </div>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-card">
+        <div class="eyebrow">Методология и выводы</div>
+        <h1>Your Customer's Portrait to 2100</h1>
+        <p class="lead">Демография как инструмент стратегического маркетинга: как рождаемость, миграция, возрастная структура и долгосрочные прогнозы помогают понять будущий спрос.</p>
+      </div>
+      <aside class="summary-card" aria-label="Key points">
+        <div>
+          <div class="summary-label">Analytical focus</div>
+          <div class="metric-list">
+            <div class="metric"><span>Projection horizon</span><span>2100</span></div>
+            <div class="metric"><span>Core indicators</span><span>3</span></div>
+            <div class="metric"><span>Country coverage</span><span>120+</span></div>
+            <div class="metric"><span>Use case</span><span>Marketing</span></div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <article class="content-card">
+<h1>Your Customers' Portrait in 2100</h1>
+<h2>Демография как инструмент стратегического маркетинга</h2>
+
+<hr>
+
+<h2>Что показывает эта карта</h2>
+
+<p>Карта визуализирует три взаимосвязанных демографических показателя для 120+ стран мира с прогнозом до 2100 года:</p>
+
+<p><strong>СКР (суммарный коэффициент рождаемости)</strong> — среднее число детей на одну женщину за всю жизнь. Пороговое значение воспроизводства населения — 2,1 ребёнка. Ниже этой отметки население начинает стареть и со временем сокращаться без компенсирующей миграции.</p>
+
+<p><strong>Население</strong> — численность в миллионах/миллиардах, рассчитанная с учётом рождаемости, естественной убыли и миграционных потоков.</p>
+
+<p><strong>Медианный возраст</strong> — возраст, который делит население пополам: половина старше, половина младше. Главный индикатор «молодости» или «старости» общества.</p>
+
+<hr>
+
+<h2>Методология</h2>
+
+<h3>Модель СКР: логистическое затухание</h3>
+<p>В отличие от линейной экстраполяции, карта использует <strong>экспоненциальное затухание к асимптотическому полу</strong> — модель, принятую в демографии как более реалистичная:</p>
+
+<pre><code>TFR(t) = floor + (TFR₀ − floor) × e^(−r × dt)</code></pre>
+
+<p>Пол задаётся индивидуально по группам стран: от 2,0 для стран Субсахарской Африки (которые, вероятно, стабилизируются выше уровня замещения) до 0,75 для стран с уже рекордно низкой рождаемостью (Южная Корея, Сингапур). Это значительно точнее прямой линии, которая к 2060 году давала бы отрицательный СКР у Кореи.</p>
+
+<h3>Модель населения: рождаемость + миграция</h3>
+<p>Прирост населения рассчитывается ежегодно через два компонента:</p>
+
+<ul><li><strong>Естественный прирост</strong>: `0,3% + (TFR/2,1 − 1) × 1,5%` — при СКР ниже 2,1 компонент становится отрицательным</li><li><strong>Миграция</strong>: для 35 ключевых стран заложены реальные данные по нетто-миграции (от +18/1000 в Катаре до −12/1000 на Украине), с линейным затуханием до 30% к 2100 году — модель постепенного выравнивания демографического давления в мире</li></ul>
+
+<h3>Модель среднего возраста: монотонный рост</h3>
+<p>Медианный возраст <strong>никогда не снижается</strong> — даже при высокой рождаемости. Темп старения определяется тремя слагаемыми:</p>
+<ul><li>Базовый рост (снижение смертности): +0,07 лет/год</li><li>Бонус за суб-замещение: `max(0; 2,1 − TFR) × 0,1`</li><li>Бонус за падающий СКР: `max(0; −ΔTFR) × 0,5`</li></ul>
+
+<h3>Источники базовых данных</h3>
+<p>Стартовые значения СКР и численности населения: <strong>UN World Population Prospects 2022</strong>, <strong>World Bank Open Data</strong>, <strong>Eurostat</strong>. Исторические тренды СКР: данные за 2000–2023 годы.</p>
+
+<hr>
+
+<h2>Почему демография — это маркетинг будущего</h2>
+
+<p>Большинство маркетинговых стратегий строится на горизонте 1–3 года. Но самые дорогостоящие решения бизнеса — выход на новые рынки, строительство производств, долгосрочные инвестиции в бренд — требуют понимания того, <strong>кто и где будет жить через 20, 30, 50 лет</strong>.</p>
+
+<p>Демография — единственная наука, которая позволяет делать прогнозы с горизонтом в полвека с разумной точностью. Рождённые сегодня выйдут на рынок труда через 20 лет. Те, кому сейчас 40 — через 25 лет станут «серебряной экономикой». Эти люди уже существуют, их количество известно, и никакой технологический шок не изменит их демографического веса.</p>
+
+<hr>
+
+<h2>Ключевые выводы для маркетинга — уже сейчас</h2>
+
+<h3>1. Африка — крупнейший потребительский рынок будущего</h3>
+
+<p>Сегодня в Нигерии 223 млн человек. По модели карты — к 2060 году около 400 млн, к 2100 — порядка 560 млн. Для сравнения: всё население ЕС сегодня составляет 450 млн, и оно сокращается.</p>
+
+<p>Медианный возраст в Нигерии — <strong>18 лет</strong>. Это означает, что бо́льшая часть населения страны ещё не стала потребителем: они не купили первый автомобиль, не открыли банковский счёт, не выбрали страховую компанию, не определились с брендом смартфона. Тот, кто формирует лояльность сейчас, получает потребителя на 40–50 лет вперёд.</p>
+
+<p>Субсахарская Африка в целом вырастет с ~1,2 млрд (2023) до ~2,5–3 млрд человек к 2100 году — <strong>крупнейший прирост потребительского класса в истории</strong>.</p>
+
+<h3>2. Европа и Восточная Азия: рынок «серебряной экономики»</h3>
+
+<p>Медианный возраст в Германии — <strong>46 лет</strong>, в Японии — <strong>49 лет</strong>, в Южной Корее — <strong>45 лет</strong>. К 2060 году эти показатели приблизятся к 55–58 годам.</p>
+
+<p>Это не «стагнирующие» рынки — это рынки с кардинально иными приоритетами потребления. По данным McKinsey, люди старше 60 лет контролируют <strong>более 50% потребительских расходов</strong> в США и Западной Европе уже сейчас. К 2040 году эта доля в Германии, Италии и Японии превысит <strong>60%</strong>.</p>
+
+<p>Продукты для здоровья, комфортного старения, финансовой безопасности, путешествий и досуга — эти категории будут расти опережающими темпами на протяжении следующих 30 лет в наиболее платёжеспособных экономиках мира.</p>
+
+<h3>3. Демографический дивиденд: Индия опережает Китай</h3>
+
+<p>Медианный возраст Индии — <strong>28 лет</strong>, Китая — <strong>39 лет</strong>. Индия уже обогнала Китай по численности населения (1,428 млрд vs 1,412 млрд) и сохраняет молодую структуру населения.</p>
+
+<p>Это означает, что Индия находится в фазе <strong>демографического дивиденда</strong> — периода, когда доля работоспособного населения максимальна, а иждивенческая нагрузка минимальна. Именно в этой фазе в 1980–2000-е находился Китай, что стало одним из ключевых факторов его экономического чуда.</p>
+
+<p>По расчётам, демографический дивиденд Индии продлится ещё <strong>20–25 лет</strong> — это окно для брендов, которые хотят стать «родными» для крупнейшего молодого среднего класса планеты.</p>
+
+<h3>4. Миграция меняет карту потребителей быстрее, чем рождаемость</h3>
+
+<p>Нетто-миграция в ОАЭ составляет <strong>+12 человек на 1000 в год</strong> — это означает, что весь потребительский профиль страны обновляется быстрее, чем в любой другой точке мира. 89% населения ОАЭ — экспаты. Традиционные стратегии «культурной локализации» здесь работают иначе: аудитория глобальная по природе.</p>
+
+<p>Германия (+2,5/1000), Канада (+6/1000), Австралия (+5/1000) компенсируют низкую рождаемость иммиграцией — и таким образом <strong>поддерживают молодость потребительского рынка</strong> вопреки низкому СКР. Маркетинг в этих странах должен отражать культурное разнообразие аудитории.</p>
+
+<h3>5. Россия и Восточная Европа: сжимающиеся рынки</h3>
+
+<p>Россия (СКР 1,41, нетто-миграция −2/1000): по модели, к 2060 году население сократится примерно со 144 до 115–120 млн человек, к 2100 — до ~100 млн. Украина (нетто-миграция −12/1000 на фоне войны) демонстрирует ещё более острое сжатие.</p>
+
+<p>Болгария, Румыния, Латвия, Литва уже потеряли 15–25% населения за постсоветский период. Для бизнеса это означает необходимость <strong>стратегии «премиумизации»</strong>: меньше потребителей при более высоком ARPU, фокус на удержание, а не на рост охвата.</p>
+
+<h3>6. СКР ниже 1,0 — прецедент без исторических аналогов</h3>
+
+<p>Южная Корея (0,72), Сингапур (1,04), ряд южноевропейских стран близко к 1,0. Ни одна страна в истории не поддерживала СКР ниже 1,0 дольше 30 лет — это новая демографическая terra incognita.</p>
+
+<p>Если эти значения сохранятся, население Южной Кореи при отсутствии миграции сократится вдвое каждые 40–45 лет. Это фундаментально меняет бизнес-модели в образовании, недвижимости, ритейле — и создаёт нетривиальные возможности для компаний, которые умеют расти на сжимающихся рынках.</p>
+
+<hr>
+
+<h2>Итог</h2>
+
+<p>Демография — не прогноз о далёком будущем. Это описание людей, которые уже родились и уже формируют спрос — просто в разных жизненных стадиях. Карта показывает, где будут деньги, где будет объём, где будет рост — и где маркетологу стоит сделать ставку уже сегодня.</p>
+
+<p>Выиграет тот, кто <strong>строит бренд там, где аудитория ещё не выбрала лидера</strong> — в Африке, Южной и Юго-Восточной Азии. И тот, кто <strong>переосмысливает продукт там, где аудитория стремительно стареет</strong> — в Европе, Японии, Корее.</p>
+
+<p>Всё остальное — тактика.</p>
+
+<hr>
+
+<p>*Модель: логистическое затухание СКР + миграционные потоки по данным UN WPP 2022 и World Bank. Прогноз носит иллюстративный характер и отражает продолжение текущих трендов.*</p>
+    </article>
+  </main>
+</body>
+</html>
